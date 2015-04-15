@@ -29,9 +29,21 @@ exports.readListOfUrls = function(){
 };
 
 exports.isUrlInList = function(){
+  // return /\./.test(userInput);
 };
 
-exports.addUrlToList = function(){
+exports.isUrlExistant = function(userInput){
+  return /\./.test(userInput);
+};
+
+exports.addUrlToList = function(data){
+  console.log('is path working',this.paths.list);
+  fs.appendFile(this.paths.list,data+"\n",function(err){
+    if (err){
+      throw err;
+    }
+    console.log('data has been successfully written.');
+  });
 };
 
 exports.isURLArchived = function(){
