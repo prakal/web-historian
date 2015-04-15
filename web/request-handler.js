@@ -4,17 +4,20 @@ var httpHelpers = require('./http-helpers');
 // require more modules/folders here!
 
 exports.handleRequest = function (req, res) {
-  if (archive.isUrlExistant(req.url) === false){
-    res.writeHead(404,httpHelpers.headers);
-    res.end("You stumbled upon the wrong page.");
-  }
   if (req.method === "GET"){
     res.writeHead(200,httpHelpers.headers);
     httpHelpers.serveAssets(res,archive.paths.siteAssets+'/index.html', function(data) {
       res.end(data)
     });
   }
-  else if (req.method === "POST"){
+  if (archive.isUrlExistant(req.url) === false){
+    res.writeHead(404,httpHelpers.headers);
+    res.end("You stumbled upon the wrong page.");
+  }
+  if (archive.isUrlInList(req.url)){
+    res.writeHead(200,httpHelpers.headers);
+  }
+  if (req.method === "POST"){
     res.writeHead(302,httpHelpers.headers);
     var chunks = "";
     req.on('data',function(chunk){

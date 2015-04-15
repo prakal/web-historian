@@ -26,14 +26,30 @@ exports.initialize = function(pathsObj){
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(){
+  var dataArray = [];
+  fs.readFile(this.paths.list,"utf8", function(err,data){
+    if (err){
+      throw err;
+    }
+    dataArray = data.split('\n');
+
+  });
+  return dataArray;
 };
 
-exports.isUrlInList = function(){
-  // return /\./.test(userInput);
+exports.isUrlInList = function(lookingFor){
+  var dataArray = this.readListOfUrls();
+  for (var i = 0; i < dataArray.length; i++){
+    if (this.dataArray[i] === lookingFor){
+      return true;
+    }
+  }
 };
 
 exports.isUrlExistant = function(userInput){
-  return /\./.test(userInput);
+  console.log('userInput',userInput,(/\./.test(userInput) || userInput === "/"));
+  // looking for a dot, or
+  return (/\./.test(userInput) || userInput === "/");
 };
 
 exports.addUrlToList = function(data){
