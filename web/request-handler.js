@@ -43,12 +43,17 @@ exports.handleRequest = function (req, res) {
       chunks += chunk;
       var equals = chunks.search(/\=/);
       chunks = chunks.slice(equals+1);
-      console.log(chunks);
-      if (archive.isUrlInList(req.url)){
-        res.end('will be loaded.');
+      console.log('chunks',chunks);
+      if (archive.isUrlInList(chunks)){
+        httpHelpers.serveAssets(res,archive.paths.archivedSites+'/'+chunks, function(data) {
+          // console.log('our data is:', data);
+          res.end(data);
+        });
+        //res.end('will be loaded.');
       }
       else{
         archive.addUrlToList(chunks);
+        archive.downloadUrls(chunks);
       }
     });
 

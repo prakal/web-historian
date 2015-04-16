@@ -65,6 +65,7 @@ exports.downloadUrls = function(url){
   // to actually download the urls you want to download.
   var httpRequest = require('http-request');
   // get html
+  var that = this;
   var markup = "";
   httpRequest.get(url, function (err, res) {
     if (err) {
@@ -74,13 +75,13 @@ exports.downloadUrls = function(url){
     // console.log(res.code, res.headers, res.buffer.toString());
     markup = res.buffer.toString();
     // save new file to sites folder with html inside it
-    this.saveUrls(markup,url);
+    that.saveUrls(markup,url);
   });
 };
 
-// exports.saveUrls = function(markup,url){
-//   fs.writeFile(this.paths.archivedSites+url, markup, function (err) {
-//     if (err) throw err;
-//     console.log('It\'s saved!');
-//   });
-// };
+exports.saveUrls = function(markup,url){
+  fs.writeFile(this.paths.archivedSites+'/'+url, markup, function (err) {
+    if (err) throw err;
+    console.log('It\'s saved!');
+  });
+};
