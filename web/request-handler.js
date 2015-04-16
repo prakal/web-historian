@@ -44,9 +44,17 @@ exports.handleRequest = function (req, res) {
       var equals = chunks.search(/\=/);
       chunks = chunks.slice(equals+1);
       console.log(chunks);
-      archive.addUrlToList(chunks);
+      if (archive.isUrlInList(req.url)){
+        res.end('will be loaded.');
+      }
+      else{
+        archive.addUrlToList(chunks);
+      }
     });
-    res.end("will be redirected");
+
+    httpHelpers.serveAssets(res,archive.paths.siteAssets+'/loading.html', function(data) {
+      res.end(data);
+    });
     // req.on('end',function(){
 
     // });
