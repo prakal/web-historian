@@ -4,11 +4,28 @@ var httpHelpers = require('./http-helpers');
 // require more modules/folders here!
 
 exports.handleRequest = function (req, res) {
+
+  // /  GET serve static
+  // /www.google.com GET
+  // / POST and some data
+
+  var validURL = archive.isUrlExistant(req.url);
+
+
+
   if (req.method === "GET"){
-    res.writeHead(200,httpHelpers.headers);
-    httpHelpers.serveAssets(res,archive.paths.siteAssets+'/index.html', function(data) {
-      res.end(data)
-    });
+
+    if(req.url === '/') {
+      res.writeHead(200,httpHelpers.headers);
+      httpHelpers.serveAssets(res,archive.paths.siteAssets+'/index.html', function(data) {
+        res.end(data)
+      });
+    } else if (validURL) {
+      httpHelpers.serveAssets(res,archive.paths.archivedSites+req.url, function(data) {
+        res.end(data)
+      });
+    }
+
   }
   if (archive.isUrlExistant(req.url) === false){
     res.writeHead(404,httpHelpers.headers);
