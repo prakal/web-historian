@@ -44,7 +44,7 @@ exports.isUrlInList = function(lookingFor){
 exports.isUrlExistant = function(userInput){
   // console.log('userInput',userInput,(/\./.test(userInput) || userInput === "/"));
   // looking for a dot, or
-  return (/\./.test(userInput) || userInput === "/");
+  return (/\./.test(userInput) && userInput.slice(-3) !== "ico" && userInput.slice(-3) !== "css");
 };
 
 exports.addUrlToList = function(data){
