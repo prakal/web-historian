@@ -18,11 +18,13 @@ exports.handleRequest = function (req, res) {
     if(req.url === '/') {
       res.writeHead(200,httpHelpers.headers);
       httpHelpers.serveAssets(res,archive.paths.siteAssets+'/index.html', function(data) {
-        res.end(data)
+        res.end(data);
       });
     } else if (validURL) {
+      res.writeHead(200,httpHelpers.headers);
+      console.log('we are trying to go to:',archive.paths.archivedSites+req.url);
       httpHelpers.serveAssets(res,archive.paths.archivedSites+req.url, function(data) {
-        res.end(data)
+        res.end(data);
       });
     }
 
